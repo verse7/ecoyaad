@@ -12,15 +12,38 @@ const schema: any = buildSchema(`
 // The root provides a resolver function for each API endpoint
 const root: any = {
   hello: () => {
-    return "Hello World!";
+    return "Hello Worlds!";
   },
 };
 
-const app = express();
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
-}));
-app.listen(3000);
-console.log('Running a graphql API server at http://localhost:3000/graphql');
+export class GQLServer {
+  public app: express.Express;
+  public port: number;
+
+  constructor() {
+    this.app = express();
+    this.port = this.getPort();
+    this.setupMiddleware();
+    this.start();
+  }
+
+  private start(): void {
+    this.app.listen(this.port, () => {
+      console.log('Running a graphql server at http://localhost:3000/graphql');
+    });
+  }
+
+  private getPort(): number {
+    return parseInt(process.env.PORT) || 3000;
+  }
+
+  private setupMiddleware(): void {
+    this.app.use('/graphql', graphqlHTTP({
+      schema: schema,
+      rootValue: root,
+      graphiql: true,
+    }));
+  }
+}
+
+module.exports = new GQLServer().app;
