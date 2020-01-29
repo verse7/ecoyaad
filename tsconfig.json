@@ -9,6 +9,9 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
+        "removeComments": true,
+        "outDir": "dist",
+        "rootDir": "src",
         "lib": [
             "esnext",
         ],
