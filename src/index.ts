@@ -1,5 +1,5 @@
-import * as express from 'express';
-import * as graphqlHTTP from 'express-graphql';
+import express from 'express';
+import graphqlHTTP from 'express-graphql';
 import { buildSchema } from 'graphql';
 
 // Construct a schema, using graphql schema language
@@ -22,7 +22,7 @@ export class GQLServer {
 
   constructor() {
     this.app = express();
-    this.port = this.getPort();
+    this.port = 3000;
     this.setupMiddleware();
     this.start();
   }
@@ -31,10 +31,6 @@ export class GQLServer {
     this.app.listen(this.port, () => {
       console.log('Running a graphql server at http://localhost:3000/graphql');
     });
-  }
-
-  private getPort(): number {
-    return parseInt(process.env.PORT) || 3000;
   }
 
   private setupMiddleware(): void {
@@ -46,4 +42,4 @@ export class GQLServer {
   }
 }
 
-module.exports = new GQLServer().app;
+export default new GQLServer().app;
